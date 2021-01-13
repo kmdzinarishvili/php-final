@@ -15,6 +15,9 @@ class CreateBookUserTable extends Migration
     {
         Schema::create('book_user', function (Blueprint $table) {
             $table->id();
+            $table->integer('book_id');
+            $table->integer('user_id');
+            $table->unique(['book_id','user_id']);
             $table->timestamps();
         });
     }

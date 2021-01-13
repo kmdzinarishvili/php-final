@@ -15,6 +15,9 @@ class CreateBookRatingTable extends Migration
     {
         Schema::create('book_rating', function (Blueprint $table) {
             $table->id();
+            $table->integer('book_id');
+            $table->integer('rating_id');
+            $table->unique(['book_id','rating_id']);
             $table->timestamps();
         });
     }

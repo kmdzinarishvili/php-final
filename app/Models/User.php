@@ -46,4 +46,7 @@ class User extends Authenticatable
     public function bookshelf(){
         return $this->belongsToMany(Book::class, "book_user", "user_id", "book_id");
     }
+    public function ratings(){
+        return $this->hasMany(Rating::class);
+    }
 }
