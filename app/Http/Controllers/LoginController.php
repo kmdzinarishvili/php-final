@@ -2,11 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    public function register(){
+        return view('registration');
+    }
+    public function postRegister(){
+
+        $this->validate(request(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+        $user = User::create(request(['name', 'email', 'password']));
+        auth()->login($user);
+
+        return redirect()->route('main');
+
+
+    }
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -15,26 +33,25 @@ class LoginController extends Controller
             // Authentication passed...
             return "logged in";
         }
-        return "not logged in";
+        return view("login");
     }
     public function postLogin(Request $request){
+        $request = $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        $credentials = $request;
 
+        if(Auth::attempt($credentials)){
+            return redirect()->route("welcome");
+        } else{
+            abort(403);
+        }
     }
-    public function logout(Request $request){
 
+    public function logout(Request $request){
+        Auth::logout();
+        return redirect()->route('login');
     }
 
 }
-
-
-
-
-//Route::get('/users/login', [\App\Http\Controllers\LoginController::class, 'login'])->name('login');
-//Route::post('users/post-login', [\App\Http\Controllers\LoginController::class, 'postLogin'])->name('post.login');
-//
-//Route::post('/users/logout', [\App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
-//
-//Route::get('/users/register', [\App\Http\Controllers\LoginController::class, 'register'])->name('register');
-//Route::post('users/post-register', [\App\Http\Controllers\LoginController::class, 'postRegister'])->name('post.register');
-
-

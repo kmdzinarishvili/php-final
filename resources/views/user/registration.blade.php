@@ -3,19 +3,24 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
-<form class="form-horizontal" action='' method="POST">
+
+
+<form class="form-horizontal" method="post" enctype="multipart/form-data" action ="{{route('post.register')}}">
     <fieldset>
         <div id="legend">
             <legend class="">Register</legend>
         </div>
         <div class="control-group">
             <!-- Username -->
-            <label class="control-label"  for="username">Username</label>
+            <label class="control-label"  for="name">Username</label>
             <div class="controls">
-                <input type="text" id="username" name="username" placeholder="" class="input-xlarge">
+                <input type="text" id="name" name="name" placeholder="" class="input-xlarge">
                 <p class="help-block">Username can contain any letters or numbers, without spaces</p>
             </div>
         </div>
+        @error("name")
+        <p class="text-danger">{{$errors->first("name")}}</p>
+        @enderror
 
         <div class="control-group">
             <!-- E-mail -->
@@ -25,6 +30,9 @@
                 <p class="help-block">Please provide your E-mail</p>
             </div>
         </div>
+        @error("email")
+        <p class="text-danger">{{$errors->first("email")}}</p>
+        @enderror
 
         <div class="control-group">
             <!-- Password-->
@@ -34,19 +42,16 @@
                 <p class="help-block">Password should be at least 4 characters</p>
             </div>
         </div>
+        @error("password")
+        <p class="text-danger">{{$errors->first("password")}}</p>
+        @enderror
 
-        <div class="control-group">
-            <!-- Password -->
-            <label class="control-label"  for="password_confirm">Password (Confirm)</label>
-            <div class="controls">
-                <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge">
-                <p class="help-block">Please confirm password</p>
-            </div>
-        </div>
 
         <div class="control-group">
             <!-- Button -->
             <div class="controls">
+                @csrf
+
                 <button class="btn btn-success">Register</button>
             </div>
         </div>
