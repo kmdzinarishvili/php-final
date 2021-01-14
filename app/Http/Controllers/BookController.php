@@ -47,23 +47,29 @@ class BookController extends Controller
     }
 
     public function edit($id){
-//        $post=Post::findOrFail($id);
-//        $tags = Tag::all();
-//        return view("edit")->with(["post"=>$post, "tags"=>$tags]);
+        $book=Book::findOrFail($id);
+        $genres = Genre::all();
+        return view("edit")->with(["book"=>$book, "genres"=>$genres]);
     }
 
     public function update(Request $request, $id){
-//        $post = Post::findOrFail($id);
-//        $post->update($request->all());
-//        $post->tags()->sync((array)$request->input('tags'));
-//
-//        return redirect()->route("posts.show",$id);
+        $book = Book::find($id);
+        $book->update($request->all());
+        $author_id = User::where('name', $request["author"])->first()->id;
+        $book->author_id = $author_id;
+        $book->genres()->sync((array)$request->input('tags'));
+        $book->author()->disassociate();
+        $book->author()->associate(User::findorfail($id));
+
+        return redirect()->route("book.show",$id);
     }
     public function delete(Book $book){
-//        try {
-//            $post->delete();
-//        } catch (\Exception $e) {
-//        }
-//        return redirect()->back();
+        $alert ="deleted";
+        try {
+            $book->delete();
+        } catch (\Exception $e) {
+            $alert = "could not delete";
+        }
+        return redirect()->back()->with('alert', $alert);
     }
 }

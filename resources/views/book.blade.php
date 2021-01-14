@@ -34,8 +34,8 @@
             <h1>{{$book->title}}</h1>
             <h2>by {{$book->author}}</h2>
             @if (Gate::forUser($user)->allows('update-book', $book))
-                <a href="{{route("books.edit", $post->id)}}">edit</a>
-                <form method="post" action="{{route('books.delete', $post->id)}}">
+                <a href="{{route("book.edit", $book->id)}}">edit</a>
+                <form method="post" action="{{route('book.delete',$book->id)}}">
                     @csrf
                     @method("DELETE")
                     <button type="submit">delete</button>

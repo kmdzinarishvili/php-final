@@ -35,5 +35,6 @@
             </div>
         </div>
     </fieldset>
+    <a href="{{route("register")}}">Register</a>
 </form>
 

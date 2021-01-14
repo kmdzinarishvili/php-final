@@ -8,6 +8,11 @@
 
 </head>
 <body class="antialiased">
+    @if (session('alert'))
+        <div class="alert alert-success">
+            {{ session('alert') }}
+        </div>
+    @endif
     @if (Route::has('login'))
         <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
             @auth
@@ -45,8 +50,8 @@
                             <h1>{{$book->title}}</h1>
                             <h2>by {{$book->author}}</h2>
                             @if (Gate::forUser(auth()->user())->allows('update-book', $book))
-                                <a href="{{route("book.edit", $post->id)}}">edit</a>
-                                <form method="post" action="{{route('book.delete', $post->id)}}">
+                                <a href="{{route("book.edit", $book->id)}}">edit</a>
+                                <form method="post" action="{{route('book.delete', $book->id)}}">
                                     @csrf
                                     @method("DELETE")
                                     <button type="submit">delete</button>
@@ -71,8 +76,8 @@
                         <h1>{{$book->title}}</h1>
                         <h2>by {{$book->author}}</h2>
                         @if (Gate::forUser(auth()->user())->allows('update-book', $book))
-                            <a href="{{route("book.edit", $post->id)}}">edit</a>
-                            <form method="post" action="{{route('book.delete', $post->id)}}">
+                            <a href="{{route("book.edit", $book->id)}}">edit</a>
+                            <form method="post" action="{{route('book.delete', $book->id)}}">
                                 @csrf
                                 @method("DELETE")
                                 <button type="submit">delete</button>
