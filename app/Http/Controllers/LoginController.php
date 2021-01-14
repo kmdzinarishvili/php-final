@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,35 +13,23 @@ class LoginController extends Controller
     public function register(){
         return view('user.registration');
     }
-    public function postRegister(){
+    public function postRegister(RegisterRequest $request){
 
-        $this->validate(request(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-        $user = User::create(request(['name', 'email', 'password']));
+        $validated = $request->validated();
+        $user = User::create($validated(['name', 'email', 'password']));
         auth()->login($user);
 
         return redirect()->route('main');
 
 
     }
-    public function login(Request $request)
+    public function login()
     {
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            return "logged in";
-        }
         return view("user.login");
     }
-    public function postLogin(Request $request){
-        $request = $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-        $credentials = $request;
+    public function postLogin(LoginRequest $request){
+
+        $credentials =  $request->validated();
 
         if(Auth::attempt($credentials)){
             return redirect()->route("welcome");
@@ -48,7 +38,7 @@ class LoginController extends Controller
         }
     }
 
-    public function logout(Request $request){
+    public function logout(){
         Auth::logout();
         return redirect()->route('login');
     }
