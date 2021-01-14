@@ -8,8 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Book extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'title',
+        'author',
+        'description',
+    ];
     public function genres(){
-        return  $this->belongsToMany(Book::class);
+        return  $this->belongsToMany(Genre::class);
     }
     public function author(){
         return $this->belongsTo(User::class, "author_id");

@@ -27,9 +27,15 @@ Route::get('/users/register', [\App\Http\Controllers\LoginController::class, 're
 Route::post('users/post-register', [\App\Http\Controllers\LoginController::class, 'postRegister'])->name('post.register');
 
 Route::get('/books', [\App\Http\Controllers\BookController::class, 'index'])->name('books')->middleware('auth');
-Route::get('/book/{id}', [\App\Http\Controllers\BookController::class, 'show'])->name('books.show')->middleware('auth');
-Route::get("/book/create", [\App\Http\Controllers\BookController::class, 'create'])->name('book.create')->middleware('auth');
+Route::get('/book/create', [\App\Http\Controllers\BookController::class, 'create'])->name('book.create')->middleware('auth');
+
+Route::get('/book/{id}', [\App\Http\Controllers\BookController::class, 'show'])->name('book.show')->middleware('auth');
+
 
 Route::post("/book/save", [\App\Http\Controllers\BookController::class, 'save'])->name('book.save')->middleware('auth');
 
 
+Route::get('/book/{id}/edit', [\App\Http\Controllers\BookController::class,"edit"])->name('book.edit')->middleware('auth');
+Route::put("book/{id}/update", [\App\Http\Controllers\BookController::class, "update"])->name("book.update")->middleware('auth');
+Route::delete('/book/{book}/delete', [\App\Http\Controllers\BookController::class, "delete"])->name("book.delete")->middleware('auth');
+Route::get('/my-books', [\App\Http\Controllers\BookController::class, 'myBooks'])->name('my.books');

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     public function register(){
-        return view('registration');
+        return view('user.registration');
     }
     public function postRegister(){
 
@@ -33,7 +33,7 @@ class LoginController extends Controller
             // Authentication passed...
             return "logged in";
         }
-        return view("login");
+        return view("user.login");
     }
     public function postLogin(Request $request){
         $request = $request->validate([
